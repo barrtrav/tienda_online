@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Warehouse index{% endblock %}
+
+{% block body %}
+    <h1>Warehouse index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>CreationDate</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>Active</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for warehouse in warehouses %}
+            <tr>
+                <td>{{ warehouse.id }}</td>
+                <td>{{ warehouse.creationDate ? warehouse.creationDate|date('Y-m-d') : '' }}</td>
+                <td>{{ warehouse.name }}</td>
+                <td>{{ warehouse.code }}</td>
+                <td>{{ warehouse.phone }}</td>
+                <td>{{ warehouse.address }}</td>
+                <td>{{ warehouse.active ? 'Yes' : 'No' }}</td>
+                <td>{{ warehouse.latitude }}</td>
+                <td>{{ warehouse.longitude }}</td>
+                <td>
+                    <a href="{{ path('app_warehouse_show', {'id': warehouse.id}) }}">show</a>
+                    <a href="{{ path('app_warehouse_edit', {'id': warehouse.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_warehouse_new') }}">Create new</a>
+{% endblock %}

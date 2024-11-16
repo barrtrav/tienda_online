@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bag{% endblock %}
+
+{% block body %}
+    <h1>Bag</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ bag.id }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ bag.code }}</td>
+            </tr>
+            <tr>
+                <th>CreationDate</th>
+                <td>{{ bag.creationDate ? bag.creationDate|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_bag_index') }}">back to list</a>
+
+    <a href="{{ path('app_bag_edit', {'id': bag.id}) }}">edit</a>
+
+    {{ include('bag/_delete_form.html.twig') }}
+{% endblock %}

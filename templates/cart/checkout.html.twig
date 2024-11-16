@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .checkout-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .checkout-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .checkout-container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .checkout-container input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .checkout-container button {
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .checkout-container button:hover {
+            background-color: #004d40;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="checkout-container">
+        <h1>Checkout</h1>
+        <form id="checkout-form" method="post" action="{{ path('cart_checkout') }}">
+            <input type="text" name="province" placeholder="Provincia" required>
+            <input type="text" name="municipality" placeholder="Municipio" required>
+            <input type="text" name="address" placeholder="Dirección de Envío" required>
+            <button type="submit">Confirmar Pedido</button>
+        </form>
+    </div>
+
+    <script>
+    document.getElementById('checkout-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        let form = event.target;
+        let formData = new FormData(form);
+
+        // Verificar si el carrito contiene datos válidos
+        let cart = localStorage.getItem('cart');
+        if (!cart) {
+            alert('El carrito está vacío');
+            return;
+        }
+
+        let data = {
+            province: formData.get('province'),
+            municipality: formData.get('municipality'),
+            address: formData.get('address'),
+            cart: JSON.parse(cart)
+        };
+
+        fetch('{{ path('cart_checkout') }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.redirect_url) {
+                window.location.href = data.redirect_url;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+    </script>
+{% endblock %}

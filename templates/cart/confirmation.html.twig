@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmación de Orden{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .confirmation-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .confirmation-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .confirmation-container p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="confirmation-container">
+        <h1>Confirmación de Orden</h1>
+        <p><strong>Orden N°:</strong> {{ order.id }}</p>
+        <p><strong>Fecha de Compra:</strong> {{ order.purchaseDate|date('Y-m-d H:i') }}</p>
+        <p><strong>Total Items:</strong> {{ order.totalItems }}</p>
+        <p><strong>Total Importe:</strong> {{ order.totalAmount }} €</p>
+    </div>
+{% endblock %}

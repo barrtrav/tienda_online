@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DistributionCenter index{% endblock %}
+
+{% block body %}
+    <h1>DistributionCenter index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Responsable</th>
+                <th>BagsDelivered</th>
+                <th>DeliveryDate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for distribution_center in distribution_centers %}
+            <tr>
+                <td>{{ distribution_center.id }}</td>
+                <td>{{ distribution_center.name }}</td>
+                <td>{{ distribution_center.responsable }}</td>
+                <td>{{ distribution_center.bagsDelivered }}</td>
+                <td>{{ distribution_center.deliveryDate ? distribution_center.deliveryDate|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_distribution_center_show', {'id': distribution_center.id}) }}">show</a>
+                    <a href="{{ path('app_distribution_center_edit', {'id': distribution_center.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_distribution_center_new') }}">Create new</a>
+{% endblock %}

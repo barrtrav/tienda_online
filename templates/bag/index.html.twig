@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bag index{% endblock %}
+
+{% block body %}
+    <h1>Bag index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Code</th>
+                <th>CreationDate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for bag in bags %}
+            <tr>
+                <td>{{ bag.id }}</td>
+                <td>{{ bag.code }}</td>
+                <td>{{ bag.creationDate ? bag.creationDate|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_bag_show', {'id': bag.id}) }}">show</a>
+                    <a href="{{ path('app_bag_edit', {'id': bag.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_bag_new') }}">Create new</a>
+{% endblock %}

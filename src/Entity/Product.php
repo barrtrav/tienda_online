@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,7 +20,7 @@ class Product
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $code;
 
@@ -66,6 +68,22 @@ class Product
      * @ORM\Column(type="decimal", precision=10, scale=2)
      */
     private $Price;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Order::class, mappedBy="products")
+     */
+    private $orders;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Bag::class, mappedBy="products")
+     */
+    private $bags;
+
+    public function __construct()
+    {
+        $this->orders = new ArrayCollection();
+        $this->bags = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -188,6 +206,60 @@ class Product
     public function setPrice(string $Price): self
     {
         $this->Price = $Price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Order>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->removeElement($order)) {
+            $order->removeProduct($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Bag>
+     */
+    public function getBags(): Collection
+    {
+        return $this->bags;
+    }
+
+    public function addBag(Bag $bag): self
+    {
+        if (!$this->bags->contains($bag)) {
+            $this->bags[] = $bag;
+            $bag->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBag(Bag $bag): self
+    {
+        if ($this->bags->removeElement($bag)) {
+            $bag->removeProduct($this);
+        }
 
         return $this;
     }

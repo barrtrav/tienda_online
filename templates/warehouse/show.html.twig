@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Warehouse{% endblock %}
+
+{% block body %}
+    <h1>Warehouse</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ warehouse.id }}</td>
+            </tr>
+            <tr>
+                <th>CreationDate</th>
+                <td>{{ warehouse.creationDate ? warehouse.creationDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ warehouse.name }}</td>
+            </tr>
+            <tr>
+                <th>Code</th>
+                <td>{{ warehouse.code }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ warehouse.phone }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ warehouse.address }}</td>
+            </tr>
+            <tr>
+                <th>Active</th>
+                <td>{{ warehouse.active ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Latitude</th>
+                <td>{{ warehouse.latitude }}</td>
+            </tr>
+            <tr>
+                <th>Longitude</th>
+                <td>{{ warehouse.longitude }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_warehouse_index') }}">back to list</a>
+
+    <a href="{{ path('app_warehouse_edit', {'id': warehouse.id}) }}">edit</a>
+
+    {{ include('warehouse/_delete_form.html.twig') }}
+{% endblock %}

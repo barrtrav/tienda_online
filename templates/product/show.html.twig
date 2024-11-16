@@ -21,6 +21,19 @@
             font-size: 18px;
             margin-bottom: 10px;
         }
+        .back-button {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .back-button:hover {
+            background-color: #004d40;
+        }
     </style>
 {% endblock %}
 
@@ -33,18 +46,19 @@
         <p><strong>Peso:</strong> {{ product.wight }} kg</p>
         <p><strong>Volumen:</strong> {{ product.volume }} L</p>
         <p><strong>Temperatura:</strong> {{ product.temperature }}</p>
-        <button onclick="addToCart({{ product.id }})">Agregar al Carrito</button>
+        <button onclick="addToCart({{ product.id }}, '{{ product.name }}', '{{ product.code }}')">Agregar al Carrito</button>
+        <a href="{{ path('product_index') }}" class="back-button">Regresar a Productos</a>
     </div>
 
     <script>
-        function addToCart(productId) {
+        function addToCart(productId, productName, productCode) {
             if (!{{ app.user ? 'true' : 'false' }}) {
                 window.location.href = "{{ path('app_login') }}";
                 return;
             }
 
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            cart.push(productId);
+            cart.push({id: productId, name: productName, code: productCode});
             localStorage.setItem('cart', JSON.stringify(cart));
             alert('Producto agregado al carrito');
             updateCartCount();

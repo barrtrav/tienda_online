@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BagReception index{% endblock %}
+
+{% block body %}
+    <h1>BagReception index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>BagCode</th>
+                <th>ReceptionDate</th>
+                <th>Responsable</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for bag_reception in bag_receptions %}
+            <tr>
+                <td>{{ bag_reception.id }}</td>
+                <td>{{ bag_reception.bagCode }}</td>
+                <td>{{ bag_reception.receptionDate ? bag_reception.receptionDate|date('Y-m-d') : '' }}</td>
+                <td>{{ bag_reception.responsable }}</td>
+                <td>
+                    <a href="{{ path('app_bag_reception_show', {'id': bag_reception.id}) }}">show</a>
+                    <a href="{{ path('app_bag_reception_edit', {'id': bag_reception.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_bag_reception_new') }}">Create new</a>
+{% endblock %}

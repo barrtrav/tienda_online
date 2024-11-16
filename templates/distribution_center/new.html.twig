@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New DistributionCenter{% endblock %}
+
+{% block body %}
+    <h1>Create new DistributionCenter</h1>
+
+    {{ include('distribution_center/_form.html.twig') }}
+
+    <a href="{{ path('app_distribution_center_index') }}">back to list</a>
+{% endblock %}

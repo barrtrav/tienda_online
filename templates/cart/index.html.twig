@@ -53,12 +53,14 @@
                                 <button onclick="removeFromCart('${product.id}')">Eliminar</button>`;
                 cartItems.appendChild(li);
             });
+            updateCartCount();
         }
 
         function clearCart() {
             localStorage.removeItem('cart');
             loadCart();
             alert('Carrito vaciado');
+            updateCartCount();
         }
 
         function removeFromCart(productId) {
@@ -66,10 +68,12 @@
             cart = cart.filter(product => product.id != productId);
             localStorage.setItem('cart', JSON.stringify(cart));
             loadCart();
+            updateCartCount();
         }
 
         function proceedToCheckout() {
-            alert('Proceder al pago');
+            // Redirigir al usuario a la página de checkout
+            window.location.href = '{{ path("cart_checkout") }}';
         }
 
         document.addEventListener('DOMContentLoaded', loadCart);

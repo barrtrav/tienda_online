@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmación de Recepción{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .confirmation-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .confirmation-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .confirmation-container p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="confirmation-container">
+        <h1>Confirmación de Recepción</h1>
+        <p><strong>Código de Bolsa:</strong> {{ bagReception.bagCode }}</p>
+        <p><strong>Centro de Distribución:</strong> {{ bagReception.distributionCenter.name }}</p>
+        <p><strong>Responsable:</strong> {{ bagReception.responsable }}</p>
+        <p><strong>Fecha de Recepción:</strong> {{ bagReception.receptionDate|date('Y-m-d') }}</p>
+        <p><strong>Hora de Recepción:</strong> {{ bagReception.receptionTime|date('H:i') }}</p>
+    </div>
+{% endblock %}

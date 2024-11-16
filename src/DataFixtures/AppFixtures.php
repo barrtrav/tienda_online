@@ -11,53 +11,15 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        echo "Inicio del método load\n";
-
-        $faker = Factory::create();
-
-        $productNames = [
-            'Televisor LED', 'Lavadora Automática', 'Refrigerador', 'Microondas', 'Aspiradora',
-            'Cafetera', 'Licuadora', 'Tostadora', 'Plancha', 'Secadora de Ropa',
-            'Ventilador', 'Aire Acondicionado', 'Calefactor', 'Horno Eléctrico', 'Batidora',
-            'Exprimidor de Jugos', 'Freidora de Aire', 'Máquina de Coser', 'Robot de Cocina',
-            'Humidificador', 'Deshumidificador', 'Purificador de Aire', 'Termo Eléctrico',
-            'Estufa de Gas', 'Lavavajillas', 'Helado de Vainilla', 'Pizza Congelada', 'Carne de Res',
-            'Pescado', 'Pollo', 'Ensalada', 'Frutas Frescas', 'Verduras Congeladas', 'Yogur',
-            'Queso', 'Leche', 'Pan', 'Galletas', 'Cereal'
-        ];
         
-        $temperatures = [
-            'Ambient', 'Ambient', 'Chilled', 'Ambient', 'Ambient',
-            'Ambient', 'Ambient', 'Ambient', 'Ambient', 'Ambient',
-            'Ambient', 'Chilled', 'Ambient', 'Ambient', 'Ambient',
-            'Ambient', 'Ambient', 'Ambient', 'Ambient', 'Ambient',
-            'Ambient', 'Ambient', 'Ambient', 'Ambient', 'Ambient',
-            'Frozen', 'Frozen', 'Frozen', 'Frozen', 'Frozen',
-            'Chilled', 'Chilled', 'Frozen', 'Chilled', 'Chilled',
-            'Chilled', 'Ambient', 'Ambient', 'Ambient'
+    }
+
+    public function getDependencies()
+    {
+        return [
+            ProductFixtures::class,
+            WarehouseFixtures::class,
+            DistributionCenterFixtures::class,
         ];
-    
-        // Generar datos falsos
-        for ($i = 0; $i < 30; $i++) {
-            $product = new Product();
-            $product->setCode($faker->unique()->numerify("###"));
-            $product->setCreationDate($faker->dateTimeBetween('-1 years', 'now'));
-            $product->setName($productNames[$i]);
-            $product->setNameTranslate($faker->firstName());
-            $product->setWight($faker->randomFloat(2, 0.1, 10)); // Valores entre 0.1 y 10
-            $product->setVolume($faker->randomFloat(2, 0.1, 10)); // Valores entre 0.1 y 10
-            $product->setBrand($faker->text(20));
-            $product->setDescription($faker->text(50));
-            $product->setTemperature($temperatures[$i]);
-            $product->setPrice($faker->randomFloat(2, 1, 100)); // Valores entre 1 y 100
-            $manager->persist($product);
-
-            // Mensaje de depuración
-            echo "Producto {$i} creado: {$product->getName()}\n";
-        }
-
-        $manager->flush();
-
-        echo "Fin del método load\n";
     }
 }
