@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}About Us{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .about-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .about-container h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .about-container p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .about-container .team {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .about-container .team-member {
+            background: #f4f4f4;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .about-container .team-member img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+        .about-container .team-member h3 {
+            margin-top: 10px;
+            font-size: 20px;
+        }
+        .about-container .team-member p {
+            font-size: 16px;
+            color: #777;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="about-container">
+    <h1>Sobre Nosotros</h1>
+    <p>En Tienda Online, nos apasiona ofrecer los mejores productos a precios competitivos. Nuestra misión es proporcionar una experiencia de compra excepcional a todos nuestros clientes.</p>
+    <p>Fundada en el año 2022, Tienda Online ha crecido rápidamente gracias a nuestro compromiso con la calidad y el servicio al cliente. Nuestro equipo está compuesto por profesionales dedicados que se esfuerzan por ofrecer lo mejor en cada categoría de productos.</p>
+    <h2>Conoce a Nuestro Equipo</h2>
+    <div class="team">
+        <div class="team-member">
+            <img src="https://via.placeholder.com/100" alt="Team Member">
+            <h3>Juan Pérez</h3>
+            <p>CEO y Fundador</p>
+        </div>
+        <div class="team-member">
+            <img src="https://via.placeholder.com/100" alt="Team Member">
+            <h3>María López</h3>
+            <p>Directora de Marketing</p>
+        </div>
+        <div class="team-member">
+            <img src="https://via.placeholder.com/100" alt="Team Member">
+            <h3>Carlos García</h3>
+            <p>Gerente de Ventas</p>
+        </div>
+        <div class="team-member">
+            <img src="https://via.placeholder.com/100" alt="Team Member">
+            <h3>Ana Torres</h3>
+            <p>Responsable de Atención al Cliente</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

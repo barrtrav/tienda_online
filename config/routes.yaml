@@ -1,0 +1,20 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+# Product Route 
+product_crud__index:
+    path: /product/crud
+    controller: App\Controller\ProductCrudController::index
+product_crud__new:
+    path: /product/crud/new
+    controller: App\Controller\ProductCrudController::new
+product_crud__show:
+    path: /product/crud/{id}
+    controller: App\Controller\ProductCrudController::show
+product_crud__edit:
+    path: /product/crud/{id}/edit
+    controller: App\Controller\ProductCrudController::edit
+product_crud__delete:
+    path: /product/crud/{id}
+    controller: App\Controller\ProductCrudController::delete
