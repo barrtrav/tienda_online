@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contáctanos{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .contact-container h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .contact-container p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .contact-container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .contact-container input, .contact-container textarea {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .contact-container button {
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .contact-container button:hover {
+            background-color: #004d40;
+        }
+        .contact-details {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .contact-details h2 {
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+        .contact-details p {
+            margin: 5px 0;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="contact-container">
+    <h1>Contáctanos</h1>
+    <p>Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos. Estamos aquí para ayudarte.</p>
+
+    <form id="contact-form">
+        <input type="text" name="name" placeholder="Tu Nombre" required>
+        <input type="email" name="email" placeholder="Tu Email" required>
+        <textarea name="message" rows="5" placeholder="Tu Mensaje" required></textarea>
+        <button type="submit">Enviar Mensaje</button>
+    </form>
+
+    <div class="contact-details">
+        <h2>Nuestras Oficinas</h2>
+        <p><strong>Dirección Principal:</strong> Calle Falsa 123, Ciudad, País</p>
+        <p><strong>Teléfono:</strong> +123 456 7890</p>
+        <p><strong>Correo Electrónico:</strong> contacto@tiendaonline.com</p>
+
+        <h2>Oficina Secundaria</h2>
+        <p><strong>Dirección:</strong> Avenida Siempre Viva 742, Ciudad, País</p>
+        <p><strong>Teléfono:</strong> +098 765 4321</p>
+        <p><strong>Correo Electrónico:</strong> soporte@tiendaonline.com</p>
+    </div>
+
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('El formulario ha sido enviado. Espere nuestra respuesta.');
+            document.getElementById('contact-form').reset();
+        });
+    </script>
+</div>
+{% endblock %}

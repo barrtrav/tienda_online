@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Productos{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .product-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .product-item h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .product-item p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .product-item button {
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .product-item button:hover {
+            background-color: #004d40;
+        }
+        .cart-icon {
+            position: relative;
+            display: inline-block;
+        }
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <h1>Productos</h1>
+    <div class="product-list">
+        {% for product in products %}
+            <div class="product-item">
+                <h2>{{ product.name }}</h2>
+                <p>{{ product.price | number_format(2, '.', ',') }} €</p>
+                <button onclick="addToCart({{ product.id }}, '{{ product.name }}', '{{ product.code }}')">Agregar al Carrito</button>
+                <a href="{{ path('product_show', { 'id': product.id }) }}">
+                    <button>Ver Detalles</button>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+        });
+
+        function addToCart(productId, productName, productCode) {
+            if (!{{ app.user ? 'true' : 'false' }}) {
+                window.location.href = "{{ path('app_login') }}";
+                return;
+            }
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push({id: productId, name: productName, code: productCode});
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('Producto agregado al carrito');
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            document.getElementById('cart-count').textContent = cart.length;
+        }
+    </script>
+{% endblock %}

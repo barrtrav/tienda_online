@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Carrito{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .cart-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .cart-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .cart-container ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .cart-container li {
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cart-container button {
+            margin-left: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="cart-container">
+        <h1>Carrito</h1>
+        <ul id="cart-items"></ul>
+        <button onclick="clearCart()">Vaciar Carrito</button>
+        <button onclick="proceedToCheckout()">Proceder al Pago</button>
+    </div>
+
+    <script>
+        function loadCart() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = '';
+            cart.forEach(product => {
+                let li = document.createElement('li');
+                li.innerHTML = `Código: ${product.code}, Nombre: ${product.name} 
+                                <button onclick="removeFromCart('${product.id}')">Eliminar</button>`;
+                cartItems.appendChild(li);
+            });
+        }
+
+        function clearCart() {
+            localStorage.removeItem('cart');
+            loadCart();
+            alert('Carrito vaciado');
+        }
+
+        function removeFromCart(productId) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart = cart.filter(product => product.id != productId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function proceedToCheckout() {
+            alert('Proceder al pago');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCart);
+    </script>
+{% endblock %}

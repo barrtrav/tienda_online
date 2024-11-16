@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenido a Nuestra Tienda Online{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .welcome-message {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .recommended-products {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .product-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .product-item h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .product-item p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .product-item button {
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .product-item button:hover {
+            background-color: #004d40;
+        }
+        .services, .payment-methods {
+            margin: 20px 0;
+        }
+        .services ul, .payment-methods ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="welcome-message">
+    <h1>Bienvenido a Nuestra Tienda Online</h1>
+    <p>¡Gracias por visitar nuestra tienda! Aquí encontrarás los mejores productos a los mejores precios.</p>
+</div>
+
+<div class="recommended-products">
+    <h2>Productos Recomendados</h2>
+    <div class="product-list">
+        {% for product in recommended_products %}
+            <div class="product-item">
+                <h2>{{ product.name }}</h2>
+                <p>{{ product.price | number_format(2, '.', ',') }} €</p>
+                <button onclick="addToCart({{ product.id }}, '{{ product.name }}', '{{ product.code }}')">Agregar al Carrito</button>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="services">
+    <h2>Nuestros Servicios</h2>
+    <ul>
+        <li>Envío gratuito en compras superiores a 50 €</li>
+        <li>Devoluciones gratuitas en un plazo de 30 días</li>
+        <li>Atención al cliente 24/7</li>
+        <li>Garantía de satisfacción del 100%</li>
+    </ul>
+</div>
+
+<div class="payment-methods">
+    <h2>Métodos de Pago</h2>
+    <ul>
+        <li>Tarjetas de crédito: Visa, MasterCard, American Express</li>
+        <li>PayPal</li>
+        <li>Transferencia bancaria</li>
+        <li>Contrareembolso</li>
+    </ul>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        updateCartCount();
+    });
+
+    function addToCart(productId, productName, productCode) {
+        if (!{{ app.user ? 'true' : 'false' }}) {
+            window.location.href = "{{ path('app_login') }}";
+            return;
+        }
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart.push({id: productId, name: productName, code: productCode});
+        localStorage.setItem('cart', JSON.stringify(cart));
+        alert('Producto agregado al carrito');
+        updateCartCount();
+    }
+
+    function updateCartCount() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        document.getElementById('cart-count').textContent = cart.length;
+    }
+</script>
+{% endblock %}
