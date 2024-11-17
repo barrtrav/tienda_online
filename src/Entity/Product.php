@@ -70,19 +70,16 @@ class Product
     private $Price;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Order::class, mappedBy="products")
+     * @ORM\ManyToOne(targetEntity=Warehouse::class, inversedBy="products")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $orders;
+    private $warehouse;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Bag::class, mappedBy="products")
-     */
-    private $bags;
+    
 
     public function __construct()
     {
-        $this->orders = new ArrayCollection();
-        $this->bags = new ArrayCollection();
+       
     }
 
     public function getId(): ?int
@@ -210,57 +207,20 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection<int, Order>
-     */
-    public function getOrders(): Collection
+    public function getWarehouse(): ?Warehouse
     {
-        return $this->orders;
+        return $this->warehouse;
     }
 
-    public function addOrder(Order $order): self
+    public function setWarehouse(?Warehouse $warehouse): self
     {
-        if (!$this->orders->contains($order)) {
-            $this->orders[] = $order;
-            $order->addProduct($this);
-        }
+        $this->warehouse = $warehouse;
 
         return $this;
     }
 
-    public function removeOrder(Order $order): self
+    public function __toString()
     {
-        if ($this->orders->removeElement($order)) {
-            $order->removeProduct($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Bag>
-     */
-    public function getBags(): Collection
-    {
-        return $this->bags;
-    }
-
-    public function addBag(Bag $bag): self
-    {
-        if (!$this->bags->contains($bag)) {
-            $this->bags[] = $bag;
-            $bag->addProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBag(Bag $bag): self
-    {
-        if ($this->bags->removeElement($bag)) {
-            $bag->removeProduct($this);
-        }
-
-        return $this;
+        return $this->getName();
     }
 }

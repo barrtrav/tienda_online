@@ -2,7 +2,53 @@
 
 {% block title %}BagReception index{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .bag-reception-index-container {
+            
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .bag-reception-index-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .bag-reception-index-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .bag-reception-index-container th, .bag-reception-index-container td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .bag-reception-index-container th {
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+        .bag-reception-index-container a {
+            display: inline-block;
+            margin: 5px 10px;
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .bag-reception-index-container a:hover {
+            background-color: #004d40;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
+<div class="bag-reception-index-container">
     <h1>BagReception index</h1>
 
     <table class="table">
@@ -12,6 +58,7 @@
                 <th>BagCode</th>
                 <th>ReceptionDate</th>
                 <th>Responsable</th>
+                <th>QrCode</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,6 +69,7 @@
                 <td>{{ bag_reception.bagCode }}</td>
                 <td>{{ bag_reception.receptionDate ? bag_reception.receptionDate|date('Y-m-d') : '' }}</td>
                 <td>{{ bag_reception.responsable }}</td>
+                <td>{{ bag_reception.qrCode }}</td>
                 <td>
                     <a href="{{ path('app_bag_reception_show', {'id': bag_reception.id}) }}">show</a>
                     <a href="{{ path('app_bag_reception_edit', {'id': bag_reception.id}) }}">edit</a>
@@ -29,11 +77,12 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="6">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
     <a href="{{ path('app_bag_reception_new') }}">Create new</a>
+</div>
 {% endblock %}

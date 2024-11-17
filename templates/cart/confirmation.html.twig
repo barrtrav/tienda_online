@@ -1,35 +1,74 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Confirmación de Orden{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    <style>
-        .confirmation-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .confirmation-container h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-        .confirmation-container p {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-    </style>
-{% endblock %}
+{# templates/cart/confirmation.html.twig #}
 
 {% block body %}
-    <div class="confirmation-container">
-        <h1>Confirmación de Orden</h1>
-        <p><strong>Orden N°:</strong> {{ order.id }}</p>
-        <p><strong>Fecha de Compra:</strong> {{ order.purchaseDate|date('Y-m-d H:i') }}</p>
-        <p><strong>Total Items:</strong> {{ order.totalItems }}</p>
-        <p><strong>Total Importe:</strong> {{ order.totalAmount }} €</p>
-    </div>
+<style>
+    .confirmation-container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .confirmation-container h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+    .confirmation-container p {
+        font-size: 18px;
+        color: #555;
+        margin: 10px 0;
+    }
+    .confirmation-container h2 {
+        font-size: 20px;
+        margin: 20px 0 10px;
+    }
+    .confirmation-container ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    .confirmation-container ul li {
+        background: #f9f9f9;
+        margin: 5px 0;
+        padding: 10px;
+        border-radius: 4px;
+    }
+    .confirmation-container a {
+        display: inline-block;
+        margin: 10px;
+        padding: 10px 20px;
+        background-color: #00796b;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    .confirmation-container a:hover {
+        background-color: #004d40;
+    }
+    .cancel-order {
+        background-color: #d32f2f;
+    }
+    .cancel-order:hover {
+        background-color: #b71c1c;
+    }
+</style>
+
+<div class="confirmation-container">
+    <h1>Confirmación de Compra</h1>
+    <p>Nombre: {{ order.user.firstName }} {{ order.user.lastName }}</p>
+    <p>Dirección de Entrega: {{ order.address }}</p>
+    <p>Monto Total: ${{ order.totalAmount }}</p>
+    <h2>Resumen de la Orden</h2>
+    <ul>
+        {% for bag in order.bags %}
+            {% for product in bag.products %}
+                <li>{{ product.name }}: ${{ product.price }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+    <a href="{{ path('shipping_confirmation', {'id': order.id}) }}">Confirmar Envío</a>
+    <a href="{{ path('cancel_order', {'id': order.id}) }}" class="cancel-order">Cancelar Orden</a>
+</div>
 {% endblock %}

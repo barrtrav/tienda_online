@@ -2,12 +2,54 @@
 
 {% block title %}Edit BagReception{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .edit-bag-reception-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .edit-bag-reception-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .edit-bag-reception-container a {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .edit-bag-reception-container a:hover {
+            background-color: #004d40;
+        }
+        .edit-bag-reception-container .btn {
+            background-color: #d32f2f;
+        }
+        .edit-bag-reception-container .btn:hover {
+            background-color: #b71c1c;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
+<div class="edit-bag-reception-container">
     <h1>Edit BagReception</h1>
 
     {{ include('bag_reception/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_bag_reception_index') }}">back to list</a>
 
-    {{ include('bag_reception/_delete_form.html.twig') }}
+    <div class="form-container">
+        {{ include('bag_reception/_delete_form.html.twig') }}
+    </div>
+</div>
 {% endblock %}

@@ -2,10 +2,44 @@
 
 {% block title %}New Order{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .new-order-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .new-order-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .new-order-container a {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .new-order-container a:hover {
+            background-color: #004d40;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
+<div class="new-order-container">
     <h1>Create new Order</h1>
 
     {{ include('order/_form.html.twig') }}
 
     <a href="{{ path('app_order_index') }}">back to list</a>
+</div>
 {% endblock %}

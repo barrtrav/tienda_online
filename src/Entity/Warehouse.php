@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\WarehouseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -56,6 +58,21 @@ class Warehouse
      * @ORM\Column(type="decimal", precision=10, scale=8)
      */
     private $longitude;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="warehouse", orphanRemoval=true)
+     */
+    private $products;
+
+    /**
+     * @ORM\OneToOne(targetEntity=DistributionCenter::class, mappedBy="warehouse", cascade={"persist", "remove"})
+     */
+    private $distributionCenter;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -156,5 +173,57 @@ class Warehouse
         $this->longitude = $longitude;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setWarehouse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getWarehouse() === $this) {
+                $product->setWarehouse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDistributionCenter(): ?DistributionCenter
+    {
+        return $this->distributionCenter;
+    }
+
+    public function setDistributionCenter(DistributionCenter $distributionCenter): self
+    {
+        // set the owning side of the relation if necessary
+        if ($distributionCenter->getWarehouse() !== $this) {
+            $distributionCenter->setWarehouse($this);
+        }
+
+        $this->distributionCenter = $distributionCenter;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

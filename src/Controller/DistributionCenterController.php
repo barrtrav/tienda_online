@@ -2,12 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Bag;
-use App\Entity\BagReception;
 use App\Entity\DistributionCenter;
-use App\Form\DistributionCenterType;
+use App\Form\DistributionCenter1Type;
 use App\Repository\DistributionCenterRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +31,7 @@ class DistributionCenterController extends AbstractController
     public function new(Request $request, DistributionCenterRepository $distributionCenterRepository): Response
     {
         $distributionCenter = new DistributionCenter();
-        $form = $this->createForm(DistributionCenterType::class, $distributionCenter);
+        $form = $this->createForm(DistributionCenter1Type::class, $distributionCenter);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -64,7 +61,7 @@ class DistributionCenterController extends AbstractController
      */
     public function edit(Request $request, DistributionCenter $distributionCenter, DistributionCenterRepository $distributionCenterRepository): Response
     {
-        $form = $this->createForm(DistributionCenterType::class, $distributionCenter);
+        $form = $this->createForm(DistributionCenter1Type::class, $distributionCenter);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -89,51 +86,5 @@ class DistributionCenterController extends AbstractController
         }
 
         return $this->redirectToRoute('app_distribution_center_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    /**
-     * @Route("/distribution/receive", name="distribution_receive", methods={"GET", "POST"})
-     */
-    public function receive(Request $request, EntityManagerInterface $em): Response
-    {
-        $bagCode = $request->request->get('bag_code');
-        $responsable = $this->getUser()->getUsername();
-        $distributionCenterId = $request->request->get('distribution_center_id');
-        $distributionCenter = $em->getRepository(DistributionCenter::class)->find($distributionCenterId);
-
-        if ($request->isMethod('POST')) {
-            $bag = $em->getRepository(Bag::class)->findOneBy(['code' => $bagCode]);
-
-            if ($bag) {
-                $bagReception = new BagReception();
-                $bagReception->setBag($bag);
-                $bagReception->setDistributionCenter($distributionCenter);
-                $bagReception->setBagCode($bagCode);
-                $bagReception->setReceptionDate(new \DateTime());
-                $bagReception->setResponsable($responsable);
-
-                $em->persist($bagReception);
-                $em->flush();
-
-                // Redirigir al usuario a la página de confirmación de recepción
-                return $this->redirectToRoute('distribution_confirmation', ['id' => $bagReception->getId()]);
-            }
-        }
-
-        $distributionCenters = $em->getRepository(DistributionCenter::class)->findAll();
-
-        return $this->render('distribution/receive.html.twig', [
-            'distribution_centers' => $distributionCenters,
-        ]);
-    }
-
-    /**
-     * @Route("/distribution/confirmation/{id}", name="distribution_confirmation")
-     */
-    public function confirmation(BagReception $bagReception): Response
-    {
-        return $this->render('distribution/confirmation.html.twig', [
-            'bagReception' => $bagReception,
-        ]);
     }
 }

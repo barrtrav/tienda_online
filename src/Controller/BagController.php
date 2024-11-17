@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Bag;
-use App\Form\BagType;
+use App\Form\Bag1Type;
 use App\Repository\BagRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +31,7 @@ class BagController extends AbstractController
     public function new(Request $request, BagRepository $bagRepository): Response
     {
         $bag = new Bag();
-        $form = $this->createForm(BagType::class, $bag);
+        $form = $this->createForm(Bag1Type::class, $bag);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -39,7 +39,7 @@ class BagController extends AbstractController
 
             return $this->redirectToRoute('app_bag_index', [], Response::HTTP_SEE_OTHER);
         }
-        
+
         return $this->renderForm('bag/new.html.twig', [
             'bag' => $bag,
             'form' => $form,
@@ -61,7 +61,7 @@ class BagController extends AbstractController
      */
     public function edit(Request $request, Bag $bag, BagRepository $bagRepository): Response
     {
-        $form = $this->createForm(BagType::class, $bag);
+        $form = $this->createForm(Bag1Type::class, $bag);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

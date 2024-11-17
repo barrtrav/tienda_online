@@ -40,18 +40,18 @@ class DistributionCenter
     private $deliveryDate;
 
     /**
-     * @ORM\OneToMany(targetEntity=Bag::class, mappedBy="distributionCenter")
+     * @ORM\OneToOne(targetEntity=Warehouse::class, inversedBy="distributionCenter", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $bagReception;
+    private $warehouse;
 
     /**
-     * @ORM\OneToMany(targetEntity=BagReception::class, mappedBy="distributionCenter")
+     * @ORM\OneToMany(targetEntity=BagReception::class, mappedBy="distributionCenter", orphanRemoval=true)
      */
     private $bagReceptions;
 
     public function __construct()
     {
-        $this->bagReception = new ArrayCollection();
         $this->bagReceptions = new ArrayCollection();
     }
 
@@ -108,32 +108,14 @@ class DistributionCenter
         return $this;
     }
 
-    /**
-     * @return Collection<int, Bag>
-     */
-    public function getBagReception(): Collection
+    public function getWarehouse(): ?Warehouse
     {
-        return $this->bagReception;
+        return $this->warehouse;
     }
 
-    public function addBagReception(Bag $bagReception): self
+    public function setWarehouse(Warehouse $warehouse): self
     {
-        if (!$this->bagReception->contains($bagReception)) {
-            $this->bagReception[] = $bagReception;
-            $bagReception->setDistributionCenter($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBagReception(Bag $bagReception): self
-    {
-        if ($this->bagReception->removeElement($bagReception)) {
-            // set the owning side to null (unless already changed)
-            if ($bagReception->getDistributionCenter() === $this) {
-                $bagReception->setDistributionCenter(null);
-            }
-        }
+        $this->warehouse = $warehouse;
 
         return $this;
     }
@@ -144,5 +126,36 @@ class DistributionCenter
     public function getBagReceptions(): Collection
     {
         return $this->bagReceptions;
+    }
+
+    public function addBagReception(BagReception $bagReception): self
+    {
+        try{
+
+            if (!$this->bagReceptions->contains($bagReception)) {
+                $this->bagReceptions[] = $bagReception;
+                $this->setBagsDelivered($this->getBagsDelivered() + 1);
+                $bagReception->setDistributionCenter($this);
+            }
+        }catch (\Exception $e) {}
+
+        return $this;
+    }
+
+    public function removeBagReception(BagReception $bagReception): self
+    {
+        if ($this->bagReceptions->removeElement($bagReception)) {
+            // set the owning side to null (unless already changed)
+            if ($bagReception->getDistributionCenter() === $this) {
+                $bagReception->setDistributionCenter(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

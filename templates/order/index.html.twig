@@ -2,14 +2,60 @@
 
 {% block title %}Order index{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .order-index-container {
+            
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .order-index-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .order-index-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .order-index-container th, .order-index-container td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .order-index-container th {
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+        .order-index-container a {
+            display: inline-block;
+            margin: 5px 10px;
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .order-index-container a:hover {
+            background-color: #004d40;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
+<div class="order-index-container">
     <h1>Order index</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>PurchasDate</th>
+                <th>PurchaseDate</th>
                 <th>ApprovalDate</th>
                 <th>Province</th>
                 <th>Municipality</th>
@@ -23,7 +69,7 @@
         {% for order in orders %}
             <tr>
                 <td>{{ order.id }}</td>
-                <td>{{ order.purchasDate ? order.purchasDate|date('Y-m-d') : '' }}</td>
+                <td>{{ order.purchaseDate ? order.purchaseDate|date('Y-m-d') : '' }}</td>
                 <td>{{ order.approvalDate ? order.approvalDate|date('Y-m-d') : '' }}</td>
                 <td>{{ order.province }}</td>
                 <td>{{ order.municipality }}</td>
@@ -44,4 +90,5 @@
     </table>
 
     <a href="{{ path('app_order_new') }}">Create new</a>
+</div>
 {% endblock %}

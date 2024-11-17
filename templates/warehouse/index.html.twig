@@ -2,7 +2,53 @@
 
 {% block title %}Warehouse index{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .warehouse-index-container {
+            
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .warehouse-index-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .warehouse-index-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .warehouse-index-container th, .warehouse-index-container td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .warehouse-index-container th {
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+        .warehouse-index-container a {
+            display: inline-block;
+            margin: 5px 10px;
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .warehouse-index-container a:hover {
+            background-color: #004d40;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
+<div class="warehouse-index-container">
     <h1>Warehouse index</h1>
 
     <table class="table">
@@ -46,4 +92,5 @@
     </table>
 
     <a href="{{ path('app_warehouse_new') }}">Create new</a>
+</div>
 {% endblock %}

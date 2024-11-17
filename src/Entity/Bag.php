@@ -20,7 +20,7 @@ class Bag
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50)
      */
     private $code;
 
@@ -46,14 +46,14 @@ class Bag
     private $distributionCenter;
 
     /**
-     * @ORM\OneToMany(targetEntity=BagReception::class, mappedBy="bag")
+     * @ORM\OneToOne(targetEntity=BagReception::class, mappedBy="bag", cascade={"persist", "remove"})
      */
-    private $bagReceptions;
+    private $bagReception;
+
 
     public function __construct()
     {
         $this->products = new ArrayCollection();
-        $this->bagReceptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,33 +133,25 @@ class Bag
         return $this;
     }
 
-    /**
-     * @return Collection<int, BagReception>
-     */
-    public function getBagReceptions(): Collection
+    public function getBagReception(): ?BagReception
     {
-        return $this->bagReceptions;
+        return $this->bagReception;
     }
 
-    public function addBagReception(BagReception $bagReception): self
+    public function setBagReception(BagReception $bagReception): self
     {
-        if (!$this->bagReceptions->contains($bagReception)) {
-            $this->bagReceptions[] = $bagReception;
+        // set the owning side of the relation if necessary
+        if ($bagReception->getBag() !== $this) {
             $bagReception->setBag($this);
         }
 
+        $this->bagReception = $bagReception;
+
         return $this;
     }
 
-    public function removeBagReception(BagReception $bagReception): self
+    public function __toString()
     {
-        if ($this->bagReceptions->removeElement($bagReception)) {
-            // set the owning side to null (unless already changed)
-            if ($bagReception->getBag() === $this) {
-                $bagReception->setBag(null);
-            }
-        }
-
-        return $this;
+        return $this->getCode();
     }
 }

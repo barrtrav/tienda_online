@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Warehouse;
-use App\Form\WarehouseType;
+use App\Form\Warehouse1Type;
 use App\Repository\WarehouseRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +31,7 @@ class WarehouseController extends AbstractController
     public function new(Request $request, WarehouseRepository $warehouseRepository): Response
     {
         $warehouse = new Warehouse();
-        $form = $this->createForm(WarehouseType::class, $warehouse);
+        $form = $this->createForm(Warehouse1Type::class, $warehouse);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -61,7 +61,7 @@ class WarehouseController extends AbstractController
      */
     public function edit(Request $request, Warehouse $warehouse, WarehouseRepository $warehouseRepository): Response
     {
-        $form = $this->createForm(WarehouseType::class, $warehouse);
+        $form = $this->createForm(Warehouse1Type::class, $warehouse);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

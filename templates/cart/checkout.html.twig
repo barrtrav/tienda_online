@@ -87,8 +87,12 @@
             if (data.redirect_url) {
                 window.location.href = data.redirect_url;
             }
+            // Imprimir mensaje de depuración en la consola del navegador 
+            if (data.error) { 
+                console.log(data.error); 
+            }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => console.log('Error:', error));
     });
     </script>
 {% endblock %}

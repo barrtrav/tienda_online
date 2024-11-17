@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BagReceptionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -33,16 +35,27 @@ class BagReception
     private $responsable;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $qrCode;
+
+    /**
      * @ORM\ManyToOne(targetEntity=DistributionCenter::class, inversedBy="bagReceptions")
      * @ORM\JoinColumn(nullable=false)
      */
     private $distributionCenter;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Bag::class, inversedBy="bagReceptions")
+     * @ORM\OneToOne(targetEntity=Bag::class, inversedBy="bagReception", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $bag;
+
+
+    public function __construct()
+    {
+        
+    }
 
     public function getId(): ?int
     {
@@ -85,6 +98,20 @@ class BagReception
         return $this;
     }
 
+    public function getQrCode(): ?string
+    {
+        return $this->qrCode;
+    }
+
+    public function setQrCode(string $qrCode): self
+    {
+        $this->qrCode = $qrCode;
+
+        return $this;
+    }
+
+    
+
     public function getDistributionCenter(): ?DistributionCenter
     {
         return $this->distributionCenter;
@@ -102,10 +129,15 @@ class BagReception
         return $this->bag;
     }
 
-    public function setBag(?Bag $bag): self
+    public function setBag(Bag $bag): self
     {
         $this->bag = $bag;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getQrCode();
     }
 }

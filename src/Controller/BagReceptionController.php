@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\BagReception;
-use App\Form\BagReceptionType;
+use App\Form\BagReception1Type;
 use App\Repository\BagReceptionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +31,7 @@ class BagReceptionController extends AbstractController
     public function new(Request $request, BagReceptionRepository $bagReceptionRepository): Response
     {
         $bagReception = new BagReception();
-        $form = $this->createForm(BagReceptionType::class, $bagReception);
+        $form = $this->createForm(BagReception1Type::class, $bagReception);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -61,7 +61,7 @@ class BagReceptionController extends AbstractController
      */
     public function edit(Request $request, BagReception $bagReception, BagReceptionRepository $bagReceptionRepository): Response
     {
-        $form = $this->createForm(BagReceptionType::class, $bagReception);
+        $form = $this->createForm(BagReception1Type::class, $bagReception);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

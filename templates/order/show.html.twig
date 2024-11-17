@@ -2,7 +2,59 @@
 
 {% block title %}Order{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .order-container {
+            
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .order-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .order-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .order-container th, .order-container td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .order-container th {
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+        .order-container a {
+            display: inline-block;
+            margin: 10px 5px;
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .order-container a:hover {
+            background-color: #004d40;
+        }
+        .order-container .btn {
+            background-color: #d32f2f;
+        }
+        .order-container .btn:hover {
+            background-color: #b71c1c;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
+<div class="order-container">
     <h1>Order</h1>
 
     <table class="table">
@@ -12,8 +64,8 @@
                 <td>{{ order.id }}</td>
             </tr>
             <tr>
-                <th>PurchasDate</th>
-                <td>{{ order.purchasDate ? order.purchasDate|date('Y-m-d') : '' }}</td>
+                <th>PurchaseDate</th>
+                <td>{{ order.purchaseDate ? order.purchaseDate|date('Y-m-d') : '' }}</td>
             </tr>
             <tr>
                 <th>ApprovalDate</th>
@@ -43,8 +95,10 @@
     </table>
 
     <a href="{{ path('app_order_index') }}">back to list</a>
-
     <a href="{{ path('app_order_edit', {'id': order.id}) }}">edit</a>
 
-    {{ include('order/_delete_form.html.twig') }}
+    <div class="form-container">
+        {{ include('order/_delete_form.html.twig') }}
+    </div>
+</div>
 {% endblock %}

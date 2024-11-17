@@ -2,7 +2,53 @@
 
 {% block title %}DistributionCenter index{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .distribution-center-index-container {
+            
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .distribution-center-index-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .distribution-center-index-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .distribution-center-index-container th, .distribution-center-index-container td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .distribution-center-index-container th {
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+        .distribution-center-index-container a {
+            display: inline-block;
+            margin: 5px 10px;
+            padding: 10px 20px;
+            background-color: #00796b;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .distribution-center-index-container a:hover {
+            background-color: #004d40;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
+<div class="distribution-center-index-container">
     <h1>DistributionCenter index</h1>
 
     <table class="table">
@@ -38,4 +84,5 @@
     </table>
 
     <a href="{{ path('app_distribution_center_new') }}">Create new</a>
+</div>
 {% endblock %}
